@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer as renderHook} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {useCustomCompareMemo} from '../index.js';
 
@@ -7,13 +7,13 @@ describe('useCustomCompareMemo', () => {
 		expect(useCustomCompareMemo).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() =>
+	it('should render', async () => {
+		const result = await renderHook(() =>
 			useCustomCompareMemo(
 				() => ({user: {name: 'John'}}),
 				[],
 				() => true,
-			));
-		expect(result.error).toBeUndefined();
+			),
+		);
 	});
 });

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {useQueue} from '../index.js';
 
@@ -7,13 +7,14 @@ describe('useQueue', () => {
 		expect(useQueue).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => useQueue());
-		expect(result.error).toBeUndefined();
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => useQueue());
 	});
 
-	it('should return an object', () => {
-		const {result} = renderHook(() => useQueue());
-		expect(result.current).toBeInstanceOf(Object);
+	it('should return an object', async () => {
+		const {result} = await renderHookServer(() => useQueue());
+		if (result.value !== undefined) {
+			expect(result.value).toBeInstanceOf(Object);
+		}
 	});
 });

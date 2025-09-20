@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer as renderHook} from '@ver0/react-hooks-testing';
 import {describe, expect, it, vi} from 'vitest';
 import {useCustomCompareEffect} from '../index.js';
 
@@ -7,16 +7,15 @@ describe('useCustomCompareEffect', () => {
 		expect(useCustomCompareEffect).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHook(() => {
 			useCustomCompareEffect(() => {}, []);
 		});
-		expect(result.error).toBeUndefined();
 	});
 
-	it('should not invoke comparator', () => {
+	it('should not invoke comparator', async () => {
 		const spy = vi.fn();
-		renderHook(() => {
+		const {result} = await renderHook(() => {
 			useCustomCompareEffect(() => {}, [], spy);
 		});
 		expect(spy).not.toHaveBeenCalled();

@@ -1,60 +1,65 @@
-import {act, renderHook} from '@testing-library/react-hooks/dom';
+import {act, renderHook} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {useQueue} from '../index.js';
 
 describe('useQueue', () => {
-	it('should be defined', () => {
+	it('should be defined', async () => {
 		expect(useQueue).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => useQueue());
+	it('should render', async () => {
+		const {result} = await renderHook(() => useQueue());
 		expect(result.error).toBeUndefined();
 	});
 
-	it('should accept an initial value', () => {
-		const {result} = renderHook(() => useQueue([0, 1, 2, 3]));
-		expect(result.current.items).toStrictEqual([0, 1, 2, 3]);
+	it('should accept an initial value', async () => {
+		const {result} = await renderHook(() => useQueue([0, 1, 2, 3]));
+		expect(result.error).toBeUndefined();
+		expect(result.value!.items).toStrictEqual([0, 1, 2, 3]);
 	});
 
-	it('should remove the first value', () => {
-		const {result} = renderHook(() => useQueue([0, 1, 2, 3]));
+	it('should remove the first value', async () => {
+		const {result} = await renderHook(() => useQueue([0, 1, 2, 3]));
+		expect(result.error).toBeUndefined();
 
-		act(() => {
-			const removed = result.current.remove();
+		await act(async () => {
+			const removed = result.value!.remove();
 			expect(removed).toBe(0);
 		});
 
-		expect(result.current.first).toBe(1);
+		expect(result.value!.first).toBe(1);
 	});
 
-	it('should return the length', () => {
-		const {result} = renderHook(() => useQueue([0, 1, 2, 3]));
-		expect(result.current.size).toBe(4);
+	it('should return the length', async () => {
+		const {result} = await renderHook(() => useQueue([0, 1, 2, 3]));
+		expect(result.error).toBeUndefined();
+		expect(result.value!.size).toBe(4);
 	});
 
-	it('should add a value to the end', () => {
-		const {result} = renderHook(() => useQueue([0, 1, 2, 3]));
+	it('should add a value to the end', async () => {
+		const {result} = await renderHook(() => useQueue([0, 1, 2, 3]));
+		expect(result.error).toBeUndefined();
 
-		act(() => {
-			result.current.add(4);
+		await act(async () => {
+			result.value!.add(4);
 		});
 
-		expect(result.current.last).toBe(4);
+		expect(result.value!.last).toBe(4);
 	});
 
-	it('should return referentially stable functions', () => {
-		const {result} = renderHook(() => useQueue([0, 1, 2, 3]));
+	it('should return referentially stable functions', async () => {
+		const {result} = await renderHook(() => useQueue([0, 1, 2, 3]));
+		expect(result.error).toBeUndefined();
 
-		const remove1 = result.current.remove;
-		const add1 = result.current.add;
+		const remove1 = result.value!.remove;
+		const add1 = result.value!.add;
 
-		act(() => {
-			result.current.add(1);
-			result.current.remove();
+		await act(async () => {
+			result.value!.add(1);
+			result.value!.remove();
 		});
 
-		expect(result.current.remove).toBe(remove1);
-		expect(result.current.add).toBe(add1);
+		expect(result.value!.remove).toBe(remove1);
+		expect(result.value!.add).toBe(add1);
 	});
 });

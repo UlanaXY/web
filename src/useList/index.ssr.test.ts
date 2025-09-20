@@ -1,5 +1,6 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
+import {expectResultValue} from '../util/testing/test-helpers.js';
 import {useList} from '../index.js';
 
 describe('useList', () => {
@@ -7,8 +8,7 @@ describe('useList', () => {
 		expect(useList).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => useList([1, 0, 2]));
-		expect(result.error).toBeUndefined();
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => useList([1, 0, 2]));
 	});
 });

@@ -24,9 +24,7 @@ function updateState<State, PreviousState = State>(
 }
 
 export function resolveHookState<State, PreviousState = State>(
-	...args:
-		| Parameters<typeof initState<State>>
-		| Parameters<typeof updateState<State, PreviousState>>
+	...args: Parameters<typeof initState<State>> | Parameters<typeof updateState<State, PreviousState>>
 ) {
 	if (args.length === 1) {
 		return initState(args[0]);

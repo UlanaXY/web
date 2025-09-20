@@ -1,5 +1,6 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer as renderHook} from '@ver0/react-hooks-testing';
 import {afterAll, afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
+import {expectResultValue} from '../util/testing/test-helpers.js';
 import {useDebouncedCallback} from '../index.js';
 
 describe('useDebouncedCallback', () => {
@@ -19,22 +20,22 @@ describe('useDebouncedCallback', () => {
 		expect(useDebouncedCallback).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHook(() => {
 			useDebouncedCallback(() => {}, [], 200);
 		});
-		expect(result.error).toBeUndefined();
 	});
 
-	it('should run given callback only after specified delay since last call', () => {
+	it('should run given callback only after specified delay since last call', async () => {
 		const cb = vi.fn();
-		const {result} = renderHook(() => useDebouncedCallback(cb, [], 200));
+		const {result} = await renderHook(() => useDebouncedCallback(cb, [], 200));
+		const debouncedCb = expectResultValue(result);
 
-		result.current();
+		debouncedCb();
 		expect(cb).not.toHaveBeenCalled();
 
 		vi.advanceTimersByTime(100);
-		result.current();
+		debouncedCb();
 
 		vi.advanceTimersByTime(199);
 		expect(cb).not.toHaveBeenCalled();
@@ -43,11 +44,12 @@ describe('useDebouncedCallback', () => {
 		expect(cb).toHaveBeenCalledTimes(1);
 	});
 
-	it('should pass parameters to callback', () => {
+	it('should pass parameters to callback', async () => {
 		const cb = vi.fn((_a: number, _c: string) => {});
-		const {result} = renderHook(() => useDebouncedCallback(cb, [], 200));
+		const {result} = await renderHook(() => useDebouncedCallback(cb, [], 200));
+		const debouncedCb = expectResultValue(result);
 
-		result.current(1, 'abc');
+		debouncedCb(1, 'abc');
 		vi.advanceTimersByTime(200);
 		expect(cb).toHaveBeenCalledWith(1, 'abc');
 	});

@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {afterAll, beforeAll, beforeEach, describe, expect, it, vi} from 'vitest';
 import {useMeasure} from '../index.js';
 
@@ -33,21 +33,22 @@ describe('useMeasure', () => {
 		expect(useMeasure).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => useMeasure());
-
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => useMeasure());
 		expect(result.error).toBeUndefined();
 	});
 
-	it('should return undefined sate on initial render', () => {
-		const {result} = renderHook(() => useMeasure());
+	it('should return undefined sate on initial render', async () => {
+		const {result} = await renderHookServer(() => useMeasure());
+		expect(result.error).toBeUndefined();
 
-		expect(result.current[0]).toBeUndefined();
+		expect(result.value![0]).toBeUndefined();
 	});
 
-	it('should return reference as a second array element', () => {
-		const {result} = renderHook(() => useMeasure());
+	it('should return reference as a second array element', async () => {
+		const {result} = await renderHookServer(() => useMeasure());
+		expect(result.error).toBeUndefined();
 
-		expect(result.current[1]).toStrictEqual({current: null});
+		expect(result.value![1]).toStrictEqual({current: null});
 	});
 });

@@ -1,8 +1,5 @@
-import {
-	useStorageValue,
-	type UseStorageValueOptions,
-	type UseStorageValueResult,
-} from '../useStorageValue/index.js';
+import {useStorageValue} from '../useStorageValue/index.js';
+import type {UseStorageValueOptions, UseStorageValueResult} from '../useStorageValue/index.js';
 import {isBrowser, noop} from '../util/const.js';
 
 let IS_LOCAL_STORAGE_AVAILABLE: boolean;
@@ -19,19 +16,15 @@ type UseLocalStorageValue = <
 	Initialize extends boolean | undefined = boolean | undefined,
 >(
 	key: string,
-	options?: UseStorageValueOptions<Type, Initialize>
+	options?: UseStorageValueOptions<Type, Initialize>,
 ) => UseStorageValueResult<Type, Default, Initialize>;
 
 /**
  * Manages a single localStorage key.
  */
-export const useLocalStorageValue: UseLocalStorageValue = IS_LOCAL_STORAGE_AVAILABLE ?
-		(key, options) => useStorageValue(localStorage, key, options) :
-		<
-			Type,
-			Default extends Type = Type,
-			Initialize extends boolean | undefined = boolean | undefined,
-		>(
+export const useLocalStorageValue: UseLocalStorageValue = IS_LOCAL_STORAGE_AVAILABLE
+	? (key, options) => useStorageValue(localStorage, key, options)
+	: <Type, Default extends Type = Type, Initialize extends boolean | undefined = boolean | undefined>(
 			_key: string,
 			_options?: UseStorageValueOptions<Type, Initialize>,
 		): UseStorageValueResult<Type, Default, Initialize> => {

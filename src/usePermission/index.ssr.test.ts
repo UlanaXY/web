@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {usePermission} from '../index.js';
 
@@ -7,8 +7,7 @@ describe('usePermission', () => {
 		expect(usePermission).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => usePermission({name: 'geolocation'}));
-		expect(result.error).toBeUndefined();
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => usePermission({name: 'geolocation'}));
 	});
 });

@@ -1,19 +1,16 @@
-import {type DependencyList, type Dispatch, useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import type {DependencyList, Dispatch} from 'react';
 import {useSyncedRef} from '../useSyncedRef/index.js';
-import {type InitialState, type NextState} from '../util/resolve-hook-state.js';
+import type {InitialState, NextState} from '../util/resolve-hook-state.js';
 
 export type ValidityState = {
 	isValid: boolean | undefined;
 } & Record<any, any>;
 
 export type ValidatorImmediate<V extends ValidityState = ValidityState> = () => V;
-export type ValidatorDeferred<V extends ValidityState = ValidityState> = (
-	done: Dispatch<NextState<V>>
-) => any;
+export type ValidatorDeferred<V extends ValidityState = ValidityState> = (done: Dispatch<NextState<V>>) => any;
 
-export type Validator<V extends ValidityState = ValidityState> =
-	| ValidatorImmediate<V>
-	| ValidatorDeferred<V>;
+export type Validator<V extends ValidityState = ValidityState> = ValidatorImmediate<V> | ValidatorDeferred<V>;
 
 export type UseValidatorReturn<V extends ValidityState> = [V, () => void];
 

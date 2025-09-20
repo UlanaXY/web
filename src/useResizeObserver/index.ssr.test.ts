@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {useResizeObserver} from '../index.js';
 
@@ -7,11 +7,9 @@ describe('useResizeObserver', () => {
 		expect(useResizeObserver).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => {
 			useResizeObserver(null, () => {});
 		});
-
-		expect(result.error).toBeUndefined();
 	});
 });

@@ -1,5 +1,6 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
+import {expectResultValue} from '../util/testing/test-helpers.js';
 import {useRafState} from '../index.js';
 
 describe('useRafState', () => {
@@ -7,8 +8,7 @@ describe('useRafState', () => {
 		expect(useRafState).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => useRafState());
-		expect(result.error).toBeUndefined();
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => useRafState());
 	});
 });

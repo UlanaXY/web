@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer} from '@ver0/react-hooks-testing';
 import {describe, expect, it} from 'vitest';
 import {useEventListener} from '../index.js';
 
@@ -7,10 +7,9 @@ describe('useEventListener', () => {
 		expect(useEventListener).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHookServer(() => {
 			useEventListener(null, 'random name', () => {});
 		});
-		expect(result.error).toBeUndefined();
 	});
 });

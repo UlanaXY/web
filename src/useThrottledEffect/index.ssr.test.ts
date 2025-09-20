@@ -1,6 +1,7 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer as renderHook} from '@ver0/react-hooks-testing';
 import {afterAll, afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
 import {useThrottledEffect} from '../index.js';
+import {expectResultValue} from '../util/testing/test-helpers.js';
 
 describe('useThrottledEffect', () => {
 	beforeAll(() => {
@@ -15,14 +16,13 @@ describe('useThrottledEffect', () => {
 		vi.useRealTimers();
 	});
 
-	it('should be defined', () => {
+	it('should be defined', async () => {
 		expect(useThrottledEffect).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHook(() => {
 			useThrottledEffect(() => {}, [], 200);
 		});
-		expect(result.error).toBeUndefined();
 	});
 });

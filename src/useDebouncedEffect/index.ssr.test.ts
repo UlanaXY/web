@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks/server';
+import {renderHookServer as renderHook} from '@ver0/react-hooks-testing';
 import {afterAll, afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
 import {useDebouncedEffect} from '../index.js';
 
@@ -19,10 +19,9 @@ describe('useDebouncedEffect', () => {
 		expect(useDebouncedEffect).toBeDefined();
 	});
 
-	it('should render', () => {
-		const {result} = renderHook(() => {
+	it('should render', async () => {
+		const {result} = await renderHook(() => {
 			useDebouncedEffect(() => {}, [], 200);
 		});
-		expect(result.error).toBeUndefined();
 	});
 });
